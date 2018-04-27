@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 
 
 using Fortune_Teller_UI.Services;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
 
 
 namespace Fortune_Teller_UI
@@ -28,8 +29,10 @@ namespace Fortune_Teller_UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
+            services.AddTransient<IFortuneService, FortuneServiceClient>();
+            services.ConfigureCloudFoundryOptions(Configuration);
+            services.Configure<FortuneServiceOptions>(opt => Configuration.GetSection("FortuneService").Bind(opt));
 
-      
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddMvc();
@@ -49,7 +52,6 @@ namespace Fortune_Teller_UI
             }
 
             app.UseStaticFiles();
-
             app.UseSession();
 
             app.UseMvc(routes =>

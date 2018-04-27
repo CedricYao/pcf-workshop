@@ -42,7 +42,7 @@ namespace Fortune_Teller_UI.Services
 
         public async Task<Fortune> RandomFortuneAsync()
         {
-            return (await AllFortunesAsync())[0];
+            return await HandleRequest<Fortune>(Config.RandomFortuneURL);
         }
 
         private async Task<T> HandleRequest<T>(string url) where T : class
