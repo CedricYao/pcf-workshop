@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Extensions.Configuration.ConfigServer;
 
 
 namespace Fortune_Teller_UI
@@ -26,6 +26,8 @@ namespace Fortune_Teller_UI
                     config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
+                    config.AddConfigServer(env);
+                    
                     config.AddEnvironmentVariables();
 
                     if (args != null)

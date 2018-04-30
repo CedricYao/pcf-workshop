@@ -1,0 +1,6 @@
+ fortuneService: 
+   Address: fortuneservice-restless-porcupine.pcfbeta.io
+   RandomFortunePath: api/fortunes/random
+   AllFortunesPath: api/fortunes/all
+   Scheme: https
+

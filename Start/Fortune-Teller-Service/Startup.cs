@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using Fortune_Teller_Service.Models;
-
+using Steeltoe.Extensions.Configuration.ConfigServer;
 
 namespace Fortune_Teller_Service
 {
@@ -25,6 +25,7 @@ namespace Fortune_Teller_Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureConfigServerClientOptions(Configuration);
             services.AddDbContext<FortuneContext>(x => x.UseInMemoryDatabase("Fortune_teller"));
             services.AddTransient<IFortuneRepository, FortuneRepository>();
             services.AddOptions();

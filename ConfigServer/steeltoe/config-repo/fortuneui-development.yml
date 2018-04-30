@@ -1,0 +1,3 @@
+ fortuneService: 
+   Address: localhost:5000 
+   Scheme: http

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 using Fortune_Teller_UI.Services;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
+using Steeltoe.Extensions.Configuration.ConfigServer;
 
 
 namespace Fortune_Teller_UI
@@ -23,20 +24,23 @@ namespace Fortune_Teller_UI
         }
 
         public IConfiguration Configuration { get; }
+
         public IHostingEnvironment Environment { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-            services.AddTransient<IFortuneService, FortuneServiceClient>();
-            services.ConfigureCloudFoundryOptions(Configuration);
-            services.Configure<FortuneServiceOptions>(opt => Configuration.GetSection("FortuneService").Bind(opt));
+            services.ConfigureConfigServerClientOptions(Configuration);
 
+            services.AddTransient<IFortuneService, FortuneServiceClient>();
+            services.Configure<FortuneServiceOptions>(Configuration.GetSection("fortuneService"));
+            
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddMvc();
         }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
