@@ -6,3 +6,7 @@ Logging:
   Console:
     LogLevel: 
       Default: Information
+Eureka:
+  client:
+    serviceUrl: http://localhost:8761/eureka
+    

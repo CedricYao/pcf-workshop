@@ -10,14 +10,16 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using System.Net.Http.Headers;
+using Steeltoe.Common.Discovery;
 
 namespace Fortune_Teller_UI.Services
 {
     public class FortuneServiceClient : IFortuneService
     {
 
-        ILogger<FortuneServiceClient> _logger;
-        IOptionsSnapshot<FortuneServiceOptions> _config;
+        private readonly ILogger<FortuneServiceClient> _logger;
+        private readonly IOptionsSnapshot<FortuneServiceOptions> _config;
+        private readonly DiscoveryHttpClientHandler _discoveryHandler;
 
         private FortuneServiceOptions Config
         {
@@ -29,11 +31,13 @@ namespace Fortune_Teller_UI.Services
 
         public FortuneServiceClient(
             IOptionsSnapshot<FortuneServiceOptions> config, 
-            ILogger<FortuneServiceClient> logger)
+            ILogger<FortuneServiceClient> logger,
+            IDiscoveryClient discoveryClient)
         {
             _logger = logger;
             _config = config;
             _logger.LogInformation($"FortuneServiceClient URL:{config.Value.RandomFortunePath}");
+            _discoveryHandler = new DiscoveryHttpClientHandler(discoveryClient, logger);
         }
 
         public async Task<List<Fortune>> AllFortunesAsync()
@@ -86,7 +90,7 @@ namespace Fortune_Teller_UI.Services
 
         private async Task<HttpClient> GetClientAsync()
         {
-            var client = new HttpClient();
+            var client = new HttpClient(_discoveryHandler, false);
             return await Task.FromResult(client);
         }
     }

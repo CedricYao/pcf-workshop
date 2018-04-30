@@ -31,7 +31,7 @@ namespace Fortune_Teller_UI.Controllers
 
             var fortune = await _fortuneService.RandomFortuneAsync();
 
-            HttpContext.Session.SetString("MyFortune", fortune.Text); 
+            HttpContext.Session.SetString("MyFortune", fortune?.Text); 
             return View(fortune);
         }
 

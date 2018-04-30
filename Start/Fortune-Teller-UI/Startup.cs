@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Fortune_Teller_UI.Services;
-
+using Pivotal.Discovery.Client;
 
 namespace Fortune_Teller_UI
 {
@@ -22,6 +22,7 @@ namespace Fortune_Teller_UI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDiscoveryClient(Configuration);
             services.AddOptions();
 
             services.AddTransient<IFortuneService, FortuneServiceClient>();
@@ -56,6 +57,8 @@ namespace Fortune_Teller_UI
                     name: "default",
                     template: "{controller=Fortunes}/{action=Index}/{id?}");
             });
+
+            app.UseDiscoveryClient();
 
         }
     }

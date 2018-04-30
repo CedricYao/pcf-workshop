@@ -14,3 +14,6 @@ Logging:
       Fortune_Teller_UI: Debug
       Pivotal: Debug
       Steeltoe: Debug
+Eureka:
+  client:
+    serviceUrl: http://localhost:8761/eureka
