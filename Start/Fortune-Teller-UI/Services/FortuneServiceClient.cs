@@ -33,6 +33,7 @@ namespace Fortune_Teller_UI.Services
         {
             _logger = logger;
             _config = config;
+            _logger.LogInformation($"FortuneServiceClient URL:{config.Value.RandomFortunePath}");
         }
 
         public async Task<List<Fortune>> AllFortunesAsync()

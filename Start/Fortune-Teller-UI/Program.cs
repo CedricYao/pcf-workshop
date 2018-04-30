@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Steeltoe.Extensions.Configuration.ConfigServer;
+using Pivotal.Extensions.Configuration.ConfigServer;
 
 
 namespace Fortune_Teller_UI

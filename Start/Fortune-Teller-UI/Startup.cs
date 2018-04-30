@@ -3,14 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-
-
 using Fortune_Teller_UI.Services;
-using Steeltoe.Extensions.Configuration.CloudFoundry;
-using Steeltoe.Extensions.Configuration.ConfigServer;
 
 
 namespace Fortune_Teller_UI
@@ -30,7 +23,6 @@ namespace Fortune_Teller_UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-            services.ConfigureConfigServerClientOptions(Configuration);
 
             services.AddTransient<IFortuneService, FortuneServiceClient>();
             services.Configure<FortuneServiceOptions>(Configuration.GetSection("fortuneService"));
