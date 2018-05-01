@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.DataProtection;
 using Fortune_Teller_UI.Services;
 using Pivotal.Discovery.Client;
+using Steeltoe.CloudFoundry.Connector.Redis;
+using Steeltoe.Security.DataProtection;
 
 namespace Fortune_Teller_UI
 {
@@ -27,8 +30,22 @@ namespace Fortune_Teller_UI
 
             services.AddTransient<IFortuneService, FortuneServiceClient>();
             services.Configure<FortuneServiceOptions>(Configuration.GetSection("fortuneService"));
-            
-            services.AddDistributedMemoryCache();
+
+
+            if(Environment.IsDevelopment())
+            {
+                services.AddDistributedMemoryCache();
+            }
+            else
+            {
+                    // Use Redis cache on CloudFoundry to DataProtection Keys
+                services.AddRedisConnectionMultiplexer(Configuration);
+                services.AddDataProtection()
+                    .PersistKeysToRedis()
+                    .SetApplicationName("fortuneui");
+                services.AddDistributedRedisCache(Configuration); 
+            }
+
             services.AddSession();
             services.AddMvc();
         }
